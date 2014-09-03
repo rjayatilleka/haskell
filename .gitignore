@@ -1,3 +1,5 @@
 stuff.hs
 *.hi
 *.o
+*.swp
+simple
