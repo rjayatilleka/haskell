@@ -43,5 +43,5 @@ getArray (JArray a) = Just a
 getArray _ = Nothing
 
 isNull :: JValue -> Bool
-isNull (JNull) = True
+isNull JNull = True
 isNull _ = False
