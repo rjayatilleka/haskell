@@ -7,6 +7,5 @@ fizzbuzz ps i = if null fb then show i else fb
           | otherwise = fb' xs n
 
 main :: IO ()
-main = mapM_ putStrLn results
-  where results = map (fizzbuzz pairs) [1..100]
-        pairs = [(3, "Fizz"), (5, "Buzz")]
+main = mapM_ (putStrLn . fizzbuzz pairs) [1..100]
+  where pairs = [(3, "Fizz"), (5, "Buzz")]
