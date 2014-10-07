@@ -1,3 +1,5 @@
+#!/usr/local/bin/runhaskell
+
 fizzbuzz :: [(Int, String)] -> Int -> String
 fizzbuzz ps i = if null fb then show i else fb
   where fb = fb' ps i
@@ -6,6 +8,14 @@ fizzbuzz ps i = if null fb then show i else fb
           | mod n divisor == 0 = str ++ fb' xs n
           | otherwise = fb' xs n
 
+fizzbuzz2 :: Int -> String
+fizzbuzz2 n
+  | mod n 15 == 0 = "FizzBuzz"
+  | mod n 3 == 0 = "Fizz"
+  | mod n 5 == 0 = "Buzz"
+  | otherwise = show n
+
 main :: IO ()
-main = mapM_ (putStrLn . fizzbuzz pairs) [1..100]
-  where pairs = [(3, "Fizz"), (5, "Buzz")]
+main = mapM_ (putStrLn . fizzbuzz2) [1..100]
+-- main = mapM_ (putStrLn . fizzbuzz pairs) [1..100]
+  -- where pairs = [(3, "Fizz"), (5, "Buzz")]

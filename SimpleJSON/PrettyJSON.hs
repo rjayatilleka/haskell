@@ -6,7 +6,7 @@ data Doc = ToBeDefined
     deriving (Show)
 
 string :: String -> Doc
-string str = undefined
+string = enclose 
 
 text :: String -> Doc
 text str = undefined
