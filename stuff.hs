@@ -4,6 +4,9 @@ data List a = EmptyList
             | Cons a (List a)
             deriving (Show)
 
+-- mapEvery :: Int -> (a -> b) -> [a] -> [b]
+-- mapEvery n f = foldr g where
+--   g
 
 myDrop :: Int -> [b] -> [b]
 myDrop n xs =
