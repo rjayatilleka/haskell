@@ -1,5 +1,10 @@
 import Data.List (intercalate, tails)
 
+data List a = EmptyList
+            | Cons a (List a)
+            deriving (Show)
+
+
 myDrop :: Int -> [b] -> [b]
 myDrop n xs =
     if n <= 0 || null xs
