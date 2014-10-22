@@ -46,3 +46,4 @@ pairs list = concat $ zipWith (zip . repeat) list $ tails list
 -- zipWith (\x ys -> zip (repeat x) ys) list (tails list)
 -- zipWith (\x -> zip (repeat x)) list (tails list)
 -- zipWith (zip . repeat) list $ tails list
+-- Comment
