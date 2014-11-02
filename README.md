@@ -1,1 +1,1 @@
-- Haskell Playground
+- Haskell playground
