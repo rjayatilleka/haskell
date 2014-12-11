@@ -1,24 +1,32 @@
-{-# LANGUAGE MultiParamTypeClasses #-}
+{-# LANGUAGE ExistentialQuantification #-}
+{-# LANGUAGE DeriveDataTypeable #-}
+
+import Data.Typeable
 
 -- http://spin.atomicobject.com/2014/12/10/typed-language-tdd-part2/
 
-class Money m where
-    money :: (Money m) => Double -> m
-    amount :: (Money m) => m -> Double
-    add :: (Money m) => m -> m -> m
-    add a b = money $ amount a + amount b
+data BigMac = BigMac deriving (Show)
 
-newtype Dollar = Dollar Double
-                 deriving (Show, Eq)
+buyBM :: Money USD -> (BigMac, Money USD)
+buyBM (Money d) = (BigMac, Money $ d - 1)
 
-instance Money Dollar where
-    money = Dollar
-    amount (Dollar a) = a
 
-newtype Franc = Franc Double
-                 deriving (Show, Eq)
+class (Typeable a) => Currency a
 
-instance Money Franc where
-    money = Franc
-    amount (Franc a) = a
+data USD deriving (Typeable)
+data EUR deriving (Typeable)
 
+instance Currency USD
+instance Currency EUR
+
+data Money c = (Currency c) => Money Double
+             deriving (Typeable)
+
+instance Show (Money c) where
+    show (Money d) = "Money " ++ show d
+
+add :: Money c -> Money c -> Money c
+add (Money a) (Money b) = Money $ a + b
+
+subtract :: Money c -> Money c -> Money c
+subtract (Money a) (Money b) = Money $ a - b
