@@ -1,4 +1,4 @@
-#!/usr/local/bin/runhaskell
+#!/usr/bin/env runghc
 
 fizzbuzz :: [(Int, String)] -> Int -> String
 fizzbuzz ps i = if null fb then show i else fb
@@ -15,7 +15,15 @@ fizzbuzz2 n
   | mod n 5 == 0 = "Buzz"
   | otherwise = show n
 
+fizzbuzz3 :: Int -> String
+fizzbuzz3 n = 
+  case (n `mod` 3, n `mod` 5) of
+    (0, 0) -> "FizzBuzz"
+    (0, _) -> "Fizz"
+    (_, 0) -> "Buzz"
+    _      -> show n
+
 main :: IO ()
-main = mapM_ (putStrLn . fizzbuzz2) [1..100]
+main = mapM_ (putStrLn . fizzbuzz3) [1..100]
 -- main = mapM_ (putStrLn . fizzbuzz pairs) [1..100]
   -- where pairs = [(3, "Fizz"), (5, "Buzz")]
