@@ -1,25 +1,26 @@
 {-# LANGUAGE ExistentialQuantification #-}
 {-# LANGUAGE DeriveDataTypeable #-}
 
+module Money (USD,
+              EUR,
+              Money(..),
+              add,
+              Money.subtract) where
+
 import Data.Typeable
 
 -- http://spin.atomicobject.com/2014/12/10/typed-language-tdd-part2/
 
 data BigMac = BigMac deriving (Show)
 
-buyBM :: Money USD -> (BigMac, Money USD)
-buyBM (Money d) = (BigMac, Money $ d - 1)
-
-
-class (Typeable a) => Currency a
-
 data USD deriving (Typeable)
 data EUR deriving (Typeable)
 
+class (Typeable a) => Currency a
 instance Currency USD
 instance Currency EUR
 
-data Money c = (Currency c) => Money Double
+data Money c = (Currency c) => Money Int
              deriving (Typeable)
 
 instance Show (Money c) where
