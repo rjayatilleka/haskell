@@ -1,9 +1,9 @@
-module Queens (solve) where
+module Eight (solutions) where
 
 type Board = [Int]
 
-next :: Int -> Board -> [Board]
-next n b = filter validMove . map (:b) $ [1..n]
+next :: Board -> [Board]
+next b = filter validMove . map (:b) $ [1..8]
 
 validMove :: Board -> Bool
 validMove b = validVertical b &&
@@ -22,6 +22,6 @@ validNegative :: Board -> Bool
 validNegative [] = True
 validNegative (x:xs) = and . zipWith (/=) [x-1, x-2 ..] $ xs
 
-solve :: Int -> [Board]
-solve n = steps !! n
-  where steps = (iterate . concatMap . next $ n) [[]]
+solutions :: [Board]
+solutions = steps !! 8
+  where steps = iterate (concatMap next) [[]]
