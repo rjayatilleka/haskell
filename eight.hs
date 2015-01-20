@@ -3,7 +3,7 @@ module Eight (solutions) where
 type Board = [Int]
 
 next :: Board -> [Board]
-next b = filter validMove . map (:b) $ [1..8]
+next b = filter validMove $ map (:b) [1..8]
 
 validMove :: Board -> Bool
 validMove b = validVertical b &&
@@ -16,11 +16,11 @@ validVertical (x:xs) = x `notElem` xs
 
 validPositive :: Board -> Bool
 validPositive [] = True
-validPositive (x:xs) = and . zipWith (/=) [x+1 ..] $ xs
+validPositive (x:xs) = and $ zipWith (/=) [x+1 ..] xs
 
 validNegative :: Board -> Bool
 validNegative [] = True
-validNegative (x:xs) = and . zipWith (/=) [x-1, x-2 ..] $ xs
+validNegative (x:xs) = and $ zipWith (/=) [x-1, x-2 ..] xs
 
 solutions :: [Board]
 solutions = steps !! 8
