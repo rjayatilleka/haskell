@@ -1,6 +1,6 @@
 {-# LANGUAGE TupleSections #-}
 
-module Sudoku where
+module Sudoku (solve, readBoard, example, example2) where
 
 import qualified Data.Vector as V
 import Data.Maybe
@@ -13,31 +13,11 @@ type Board = Vector (Vector Int)
 solve :: Board -> [Board]
 solve b = foldl' next [b] (gaps b)
 
-gaps :: Board -> [Coord]
-gaps b = concat
-       . V.toList
-       . V.imap (\i -> map (i,))
-       . V.map (catMaybes . V.toList . V.imap zeroIndex)
-       $ b
-  where zeroIndex i 0 = Just i
-        zeroIndex _ _ = Nothing
-
 next :: [Board] -> Coord -> [Board]
 next bs c = filter (validAt c) $ concatMap (movesAt c) bs
 
-movesAt :: Coord -> Board -> [Board]
-movesAt c b = map (update c b) [1..9]
-
 validAt :: Coord -> Board -> Bool
 validAt c b = all (validate (get c b) . ($ b) . ($ c)) [row, col, box]
-
-update :: Coord -> Board -> Int -> Board
-update (x, y) b i = (b V.//)
-                  . (:[])
-                  . (x,)
-                  . (V.// [(y, i)])
-                  . (V.! x)
-                  $ b
 
 validate :: Int -> Vector Int -> Bool
 validate i = (== 1) . V.length . V.elemIndices i
@@ -52,18 +32,29 @@ col :: Coord -> Board -> Vector Int
 col (_, y) = V.map (V.! y)
 
 box :: Coord -> Board -> Vector Int
-box = box_ . corner
+box = box' . corner
   where c i = (i `div` 3) * 3
         corner (x, y) = (c x, c y)
-        box_ (x, y) = V.concatMap (V.slice y 3) . V.slice x 3
+        box' (x, y) = V.concatMap (V.slice y 3) . V.slice x 3
 
+movesAt :: Coord -> Board -> [Board]
+movesAt c b = map (update c b) [1..9]
+
+update :: Coord -> Board -> Int -> Board
+update (x, y) b i = (b V.//) . (:[]) . (x,) . (V.// [(y, i)]) . (V.! x) $ b
+
+gaps :: Board -> [Coord]
+gaps b = concat
+       . V.toList
+       . V.imap (map . (,))
+       . V.map (catMaybes . V.toList . V.imap zeroIndex)
+       $ b
+  where zeroIndex i 0 = Just i
+        zeroIndex _ _ = Nothing
 
 
 --------------------------------------------------------------------------------
 ----- STUFF --------------------------------------------------------------------
-
-board :: Board
-board = readBoard example
 
 example2 :: String
 example2 = "000003017\n\
